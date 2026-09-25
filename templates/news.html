@@ -1,0 +1,134 @@
+{% load static %}
+{% load i18n %}
+{% load socialaccount %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "All stories — Briefly" %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
+<body class="news-page">
+
+<header class="site-header">
+  <div class="container-fluid shell header-row">
+    <a href="{% url 'home' %}" class="brand" aria-label="Briefly home">Briefly<span>.</span></a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="{% url 'home' %}">{% trans "Home" %}</a>
+      <a class="active" href="{% url 'news_list' %}">{% trans "Latest" %}</a>
+      <a href="{% url 'home' %}#business">{% trans "Business" %}</a>
+      <a href="{% url 'home' %}#culture">{% trans "Culture" %}</a>
+    </nav>
+
+    <div class="header-tools">
+      <button class="icon-button theme-toggle" aria-label="{% trans 'Toggle dark mode' %}">
+        <span class="sun">☼</span><span class="moon">◐</span>
+      </button>
+
+      {% if user.is_authenticated %}
+        {% get_social_accounts user as social_accounts %}
+        <div class="profile-menu">
+          <button class="profile-avatar" type="button" aria-label="{% trans 'Account menu' %}">
+            {% if social_accounts.google %}
+              <img class="avatar-img" src="{{ social_accounts.google.0.get_avatar_url }}" alt="{{ user.get_full_name|default:user.email }}">
+            {% else %}
+              <img class="avatar-img" data-email="{{ user.email }}" alt="{{ user.get_full_name|default:user.email }}">
+            {% endif %}
+          </button>
+          <div class="profile-dropdown">
+            <span class="profile-email">{{ user.email }}</span>
+            <a href="{% url 'logout' %}">{% trans "Log out" %}</a>
+          </div>
+        </div>
+      {% else %}
+        <a class="login-link" href="{% url 'login' %}">{% trans "Log in" %}</a>
+        <a class="button button-small" href="{% url 'signup' %}">{% trans "Sign up" %}</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <section class="news-intro shell">
+    <div class="news-intro-top">
+      <p class="eyebrow">{% trans "The complete edit" %}</p>
+      <span class="news-count">{% trans "Stories worth your time" %}</span>
+    </div>
+
+    <div class="news-title-row">
+      <h1>{% trans "All stories." %}</h1>
+      <p>{% trans "A considered collection of the latest reporting, ideas and stories from Briefly." %}</p>
+    </div>
+  </section>
+
+  <section class="news-feed shell" aria-labelledby="stories-heading">
+    <div class="news-feed-heading">
+      <div>
+        <span class="section-kicker">01</span>
+        <h2 id="stories-heading">{% trans "Latest" %}</h2>
+      </div>
+      <p>{% trans "Newest first" %}</p>
+    </div>
+
+    {% if articles %}
+      <div class="news-grid">
+        {% for article in articles %}
+          <article class="news-card news-card-{{ forloop.counter }}">
+            <a class="news-card-image" href="{% url 'article' article.slug %}">
+              <img src="{{ article.image }}" alt="{{ article.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+              <span class="news-card-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <div class="news-card-body">
+              <div class="news-card-meta">
+                <span>{{ article.category }}</span>
+                <time datetime="{{ article.published_at|date:'Y-m-d' }}">{{ article.published_at|date:"M d, Y" }}</time>
+              </div>
+
+              <h3>
+                <a href="{% url 'article' article.slug %}">{{ article.title }}</a>
+              </h3>
+
+              <p>{{ article.summary }}</p>
+
+              <div class="news-card-footer">
+                <span>{{ article.read_time }} {% trans "min read" %}</span>
+                <span>{% trans "Read story" %} <b>→</b></span>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="news-empty">
+        <span class="section-kicker">—</span>
+        <h2>{% trans "No stories yet." %}</h2>
+        <p>{% trans "There are no published stories to show right now." %}</p>
+        <a class="text-link" href="{% url 'home' %}">{% trans "Back home" %} <span>→</span></a>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="news-end shell">
+    <div class="news-end-line"></div>
+    <p class="eyebrow">{% trans "Briefly" %}</p>
+    <p>{% trans "Less noise. More context." %}</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container-fluid shell">
+    <a href="{% url 'home' %}" class="brand">Briefly<span>.</span></a>
+    <p>{% trans "Independent journalism for a more considered world." %}</p>
+    <p>{% trans "© 2026 Briefly" %}</p>
+  </div>
+</footer>
+
+<script src="{% static 'assets/js/app.js' %}"></script>
+</body>
+</html>

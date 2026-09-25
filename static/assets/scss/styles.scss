@@ -1,0 +1,7 @@
+// Source Sass entry point. The runnable CSS is compiled into ../css/styles.css.
+$paper: #f7f6f2;
+$ink: #1c1c1a;
+$accent: #d84d2f;
+
+:root { --paper: #{$paper}; --ink: #{$ink}; --accent: #{$accent}; }
+// Keep design tokens and component styling in assets/css/styles.css for zero-build local use.

@@ -1,0 +1,90 @@
+{% load static %}
+{% load i18n %}
+{% load socialaccount %}
+<!doctype html>
+
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans "Sign up — Briefly" %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
+<body class="auth-page">
+<header class="auth-topbar"><a class="brand" href="{% url 'home' %}">Briefly<span>.</span></a>
+    <div class="header-tools">
+        <button class="icon-button theme-toggle" aria-label="{% trans 'Toggle dark mode' %}"><span class="sun">☼</span><span
+                class="moon">◐</span></button>
+    </div>
+</header>
+<main class="auth-wrap">
+    <section class="auth-card"><a class="back-link" href="{% url 'home' %}">{% trans "← Back to Briefly" %}</a>
+        <p class="eyebrow">{% trans "Join the conversation" %}</p>
+        <h1>{% trans "Start reading differently." %}</h1>
+        <p>{% trans "Make a free account to save stories and receive our weekly edit." %}</p>
+
+        <a class="google-button" href="{% url 'google_signup' %}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285f4"
+                      d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5a4.7 4.7 0 0 1-2 3.1v2.5h3.3c2-1.8 3-4.4 3-7.4Z"/>
+                <path fill="#34a853"
+                      d="M12 22c2.7 0 5-.9 6.7-2.4l-3.3-2.5c-.9.6-2 .9-3.4.9-2.6 0-4.8-1.8-5.6-4.2H3v2.6A10 10 0 0 0 12 22Z"/>
+                <path fill="#fbbc05"
+                      d="M6.4 13.8a6 6 0 0 1 0-3.6V7.6H3A10 10 0 0 0 3 16l3.4-2.2Z"/>
+                <path fill="#ea4335"
+                      d="M12 6c1.5 0 2.9.5 3.9 1.5l2.9-2.8C17 3 14.7 2 12 2A10 10 0 0 0 3 7.6l3.4 2.6C7.2 7.8 9.4 6 12 6Z"/>
+            </svg>
+
+            {% trans "Continue with Google" %}
+        </a>
+
+        <div class="auth-divider"><span>{% trans "or" %}</span></div>
+        <form class="auth-form" method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <label for="name">{% trans "Name" %}</label><input
+                id="name" name="name" type="text" required>
+
+            <label for="email">{% trans "Email address" %}</label><input
+                id="email" name="email" type="email" required>
+
+            <label for="password">{% trans "Password" %}</label>
+            <div class="password-field">
+                <input id="password" name="password" type="password" minlength="6" required>
+                <button class="password-toggle" type="button" data-target="password" aria-pressed="false" aria-label="{% trans 'Show password' %}" data-show-label="{% trans 'Show password' %}" data-hide-label="{% trans 'Hide password' %}">
+                    <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3.2"/></svg>
+                    <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.1 3.9M6.6 6.6C3.4 8.6 1.5 12 1.5 12s3.5 7 10.5 7a10.7 10.7 0 0 0 4.4-.9"/><path d="M9.5 9.9a3.2 3.2 0 0 0 4.5 4.5"/></svg>
+                </button>
+            </div>
+
+            <label for="confirm_password">{% trans "Confirm password" %}</label>
+            <div class="password-field">
+                <input id="confirm_password" name="confirm_password" type="password" minlength="6" required>
+                <button class="password-toggle" type="button" data-target="confirm_password" aria-pressed="false" aria-label="{% trans 'Show password' %}" data-show-label="{% trans 'Show password' %}" data-hide-label="{% trans 'Hide password' %}">
+                    <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3.2"/></svg>
+                    <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.1 3.9M6.6 6.6C3.4 8.6 1.5 12 1.5 12s3.5 7 10.5 7a10.7 10.7 0 0 0 4.4-.9"/><path d="M9.5 9.9a3.2 3.2 0 0 0 4.5 4.5"/></svg>
+                </button>
+            </div>
+
+            <label class="check-label"><input
+                type="checkbox" required><span>{% trans "I agree to the terms and privacy policy." %}</span></label>
+            <button class="button" type="submit">{% trans "Create an account" %}</button>
+            <p class="form-message" aria-live="polite"></p></form>
+        <p class="auth-switch"><span>{% trans "Already a reader?" %}</span> <a href="{% url 'login' %}">{% trans "Log in" %}</a>
+        </p></section>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="form-status">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+</main>
+<script src="{% static 'assets/js/app.js' %}"></script>
+</body>
+</html>
