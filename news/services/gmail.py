@@ -24,7 +24,7 @@ def send_article_email(email, article):
             </p>
 
             <p>
-                Briefly — yangiliklardan xabardor bo‘ling.
+                <a href="https://briefly-rq6j.onrender.com">Briefly</a> — yangiliklardan xabardor bo‘ling.
             </p>
         </body>
     </html>

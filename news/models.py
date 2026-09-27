@@ -43,7 +43,7 @@ class Article(models.Model):
                     f"{self.summary}\n\n"
                     f"👤 <b>Muallif:</b> {self.author}\n"
                     f"📂 <b>Kategoriya:</b> #{self.category}\n\n"
-                    f"🌐 <i>Briefly — yangiliklardan xabardor bo‘ling.</i>"
+                    f"🌐 <i><a href='https://briefly-rq6j.onrender.com'>Briefly</a> — yangiliklardan xabardor bo‘ling.</i>"
                 ),
             )
 
